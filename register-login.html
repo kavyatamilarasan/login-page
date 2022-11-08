@@ -1,0 +1,189 @@
+<html>
+    <style>
+        body{
+            background-color: brown;
+            font: 20px verdana;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+            width:95%;
+            height:95%
+        }
+        #login,#signupDiv{
+            width:500px;
+            height:32S0px;
+            display: flex;
+            flex-direction: column;
+            align-items:center;
+            border: 1px solid white
+        }
+        #LoginInput,#signupInput{
+            padding:30px;
+        }
+        #login,#signupDiv{
+            display:none;
+        }
+        #signupResponse,#response{
+            background-color:red;
+        }
+        #mainOpenDiv{
+           align-items:center;
+        }
+        #LogSignbtnDiv{
+
+            width:400px;
+            display:flex;
+            justify-content:space-evenly;
+        }
+    </style>
+    <head>
+        <title>Application</title>
+        <link rel = "icon" href = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMa8niYj3AMsf2wELp50aXmdRtsD8N2xuxfg&usqp=CAU" type = "image/x-icon">
+    </head>
+
+    <body>
+
+        <div id="mainOpenDiv">             
+            
+            <button onclick="main('signupDiv')">SIGN-UP</button>
+        </div>
+        
+        <div id="login">           
+            <h3>LOGIN</h3>
+            <div id="LoginInput">
+                <label>MAIl ID   : </label>
+                <input type="text" id="loginInputMail"/> 
+            </div>
+            <div id="LoginInput">
+                <label>PASSWORD : </label>
+                <input type="password" id="loginInputPassword"/> 
+            </div>
+            <h1 id="response"></h1>      
+            <div id="LogSignbtnDiv">
+               <button onclick="checkUser()">SUBMIT</button>       
+               
+            </div>
+              
+        </div>
+
+        <div id="signupDiv">
+            <h3>SIGN-UP</h3>
+            <div id="signupInput">
+                <label>MAIL ID   : </label>
+                <input type="text" id="signupInputMail"/> 
+            </div>
+            <div id="signupInput">            
+                <label>PASSWORD : </label>
+                <input type="password" id="signupInputPassword"/> 
+            </div>
+            <div id="signupInput">
+                <label>CONFIRM PASSWORD : </label>
+                <input type="password" id="signupInputConfirmPass"/> 
+            </div>
+            <h3 id="signupResponse"></h3> 
+            <div id="LogSignbtnDiv">     
+                 <button onclick="signup()">SUBMIT</button>     
+                           
+            <div>
+        </div>
+               
+        <script>
+            const main = (div) =>{
+            
+                let another=(div=="login")?"signupDiv":"login";
+                console.log(div+" "+another);
+                document.getElementById("mainOpenDiv").style.display="none";
+                document.getElementById(another).style.display="none";
+                document.getElementById(div).style.display="flex";
+                console.log("---");
+                
+            }
+            const users=[];
+            const signup=()=>{                
+                 document.getElementById("mainOpenDiv").style.display="none";
+                 document.getElementById("signupDiv").style.display="flex";
+                 
+                 
+                 let enteredMail = document.getElementById("signupInputMail");
+                 let enteredPassword = document.getElementById("signupInputPassword");
+                 let enteredConfirmPass = document.getElementById("signupInputConfirmPass");
+                 
+                 let response = document.getElementById("signupResponse");
+                 
+                 response.innerHTML = "";
+                 let mail = enteredMail.value;
+                 let password = enteredPassword.value;
+                 let confirmPass = enteredConfirmPass.value;
+
+                
+                if (mail.length == 0) {
+                    response.innerHTML = "";
+                    response.innerHTML = "ENTER THE MAIL ID";
+                    return;                
+                }else if (password.length == 0) {
+                    response.innerHTML = "";
+                    response.innerHTML = "ENTER THE PASSWORD";
+                    return;
+                }  else if (confirmPass.length == 0) {
+                    response.innerHTML = "";
+                    response.innerHTML = "ENTER THE CONFIRM_PASS";
+                    return;
+                } else if(password!==confirmPass){
+                    response.innerHTML = "";
+                    response.innerHTML = "PASSWORD MISMATCH";
+                    return;
+                } else if(password.length<4) {
+                    response.innerHTML = "";
+                    response.innerHTML = "PASSWORD LENGTH < 4";
+                    return;
+                }
+                const acc ={
+                    "mail":mail,
+                    "password":password
+                }
+                users.push(acc);
+                console.log(users);
+                main("login");
+                 
+            }
+            
+            const checkUser = () => {               
+                let enteredMail = document.getElementById("loginInputMail");
+                let enteredPassword = document.getElementById("loginInputPassword");
+                let response = document.getElementById("response");
+                
+                let mail = enteredMail.value;
+                let password = enteredPassword.value;
+                if (mail.length == 0) {
+                    response.innerHTML = "";
+                    response.innerHTML = "ENTER THE MAIL ID";
+                    return;
+                } else if (password.length == 0) {
+                    response.innerHTML = "";
+                    response.innerHTML = "ENTER THE PASSWORD";
+                    return;
+                }
+                const found = users.find((user)=>user.mail===mail);
+                if(found=== undefined){
+                    console.log("---");
+                }else{
+                    location.href="profile.html";
+                }
+            }
+            
+            const fillLogin=()=>{                
+                document.getElementById("signupDiv").style.display="none";
+                document.getElementById("login").style.display="flex";
+                alert("ACCOUNT CREATED SUCCESSFULLY");
+                
+                let loginMail = document.getElementById("loginInputMail");
+                let loginPassword = document.getElementById("loginInputPassword");
+                
+                loginMail.setAttribute('value', "");
+                loginPassword.setAttribute('value', "");
+            }
+        </script>
+    </body>
+</html>
